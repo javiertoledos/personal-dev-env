@@ -1,0 +1,6 @@
+roles:
+- geerlingguy.docker
+- gantsign.inotify
+- stephdewit.nvm
+- githubixx.kubectl
+- deekayen.awscli2

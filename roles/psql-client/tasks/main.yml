@@ -1,0 +1,3 @@
+- name: Install Postgresql client
+  apt:
+    name: postgresql-client-{{psql_version}}

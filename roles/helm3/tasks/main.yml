@@ -1,0 +1,10 @@
+- name: Download helm3 installer
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    dest: /opt/get_helm.sh
+    mode: '0755'
+- name: Install helm3
+  ansible.builtin.shell: /opt/get_helm.sh
+  args:
+    executable: /bin/bash
+    creates: /usr/local/bin/helm

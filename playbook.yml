@@ -1,0 +1,39 @@
+- hosts: localhost
+  connection: local
+  become: true
+  vars:
+    user: javiertoledos
+  roles:
+  - role: geerlingguy.docker
+    vars:
+      docker_users:
+      - "{{ user }}"
+  - role: stephdewit.nvm
+    become: true
+    become_user: "{{ user }}"
+    vars:
+      nvm_node_version: lts
+    environment:
+      NVM_DIR: "{{ user }}/.nvm"
+  - role: script-tooling
+  - role: psql-client
+  - role: githubixx.kubectl
+  - role: helm3
+  - role: deekayen.awscli2
+  tasks:
+  - name: Install Digital Ocean control
+    snap:
+      name: doctl
+  - name: Install Kops
+    snap:
+      name: kops
+  - name:
+    apt:
+      name: python3-venv
+  - name: Install Poetry
+    become: true
+    become_user: "{{ user }}"
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      executable: /bin/bash
+      creates: "/home/{{user}}/.local/bin/poetry"
