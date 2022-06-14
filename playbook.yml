@@ -8,6 +8,12 @@
     vars:
       docker_users:
       - "{{ user }}"
+  - role: script-tooling
+    tags:
+      - scripts
+  - role: oh-my-zsh
+    tags:
+      - scripts
   - role: stephdewit.nvm
     become: true
     become_user: "{{ user }}"
@@ -15,7 +21,6 @@
       nvm_node_version: lts
     environment:
       NVM_DIR: "{{ user }}/.nvm"
-  - role: script-tooling
   - role: psql-client
   - role: githubixx.kubectl
   - role: helm3
@@ -37,3 +42,32 @@
     args:
       executable: /bin/bash
       creates: "/home/{{user}}/.local/bin/poetry"
+  
+  - name: Enable Oh My Zsh! plugins
+    lineinfile:
+      path: "/home/{{ user }}/.zshrc"
+      regex: "^plugins=*"
+      line: plugins=(asdf composer aws git kubectl nvm poetry z)
+
+    tags:
+      - scripts
+
+  - name: Download Starship prompt installer
+    get_url:
+      url:  https://starship.rs/install.sh
+      dest: /opt/install-starship
+      mode: '0755'
+    tags:
+      - starship
+  - name: Install Starship
+    ansible.builtin.shell: /opt/install-starship -y
+    args:
+      creates: /usr/local/bin/starship
+    tags:
+      - starship
+  - name: Enable Starship on Zsh
+    blockinfile:
+      path: "/home/{{ user }}/.zshrc"
+      block: 'eval "$(starship init zsh)"'
+    tags:
+      - starship

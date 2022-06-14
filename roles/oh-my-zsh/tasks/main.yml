@@ -1,0 +1,12 @@
+- name: Download Oh My Zsh! installer
+  get_url:
+    url:  https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /opt/install-oh-my-zsh
+    mode: '0755'
+- name: Install Oh My Zsh!
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: /opt/install-oh-my-zsh
+  args:
+    chdir: "/home/{{ user }}"
+    creates: .oh-my-zsh

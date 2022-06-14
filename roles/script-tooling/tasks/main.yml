@@ -1,6 +1,25 @@
-- name: Install JQ
+- name: "Install {{ item }}"
   apt:
-    name: jq
+    name: "{{ item }}"
+  loop:
+    - zsh
+    - curl
+    - jq
+    - httpie
+
+- name: Install asdf
+  become: true
+  become_user: "{{ user }}"
+  git:
+    repo: https://github.com/asdf-vm/asdf.git 
+    dest: "/home/{{ user }}/.asdf"
+    version: v0.10.2
+
+- name: Change shell to zsh
+  ansible.builtin.user:
+    user: "{{ user }}"
+    shell: /bin/zsh
+
 - name: Install Dasel
   get_url:
     url: https://github.com/TomWright/dasel/releases/download/v1.24.3/dasel_linux_amd64
