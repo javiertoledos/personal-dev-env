@@ -1,0 +1,13 @@
+- name: Download Starship prompt installer
+  get_url:
+    url:  https://starship.rs/install.sh
+    dest: /opt/install-starship
+    mode: '0755'
+- name: Install Starship
+  ansible.builtin.shell: /opt/install-starship -y
+  args:
+    creates: /usr/local/bin/starship
+- name: Enable Starship on Zsh
+  blockinfile:
+    path: "/home/{{ user }}/.zshrc"
+    block: 'eval "$(starship init zsh)"'
