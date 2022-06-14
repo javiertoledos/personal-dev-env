@@ -1,0 +1,5 @@
+- name: Install asdf
+  git:
+    repo: https://github.com/asdf-vm/asdf.git 
+    dest: "/home/{{ user }}/.asdf"
+    version: v0.10.2

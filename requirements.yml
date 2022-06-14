@@ -1,6 +1,8 @@
 roles:
 - geerlingguy.docker
 - gantsign.inotify
-- stephdewit.nvm
 - githubixx.kubectl
 - deekayen.awscli2
+- geerlingguy.php-versions
+- geerlingguy.php
+- geerlingguy.composer

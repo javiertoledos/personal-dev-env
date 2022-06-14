@@ -1,0 +1,10 @@
+- name: Install Python virtual env
+  apt:
+    name: python3-venv
+- name: Install Poetry
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+  args:
+    executable: /bin/bash
+    creates: "/home/{{user}}/.local/bin/poetry"
