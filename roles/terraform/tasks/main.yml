@@ -1,0 +1,9 @@
+- name: Add Terraform apt key
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+- name: Add Terraform repository
+  apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+- name: Install Terraform
+  apt:
+    name: terraform

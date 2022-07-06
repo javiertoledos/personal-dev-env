@@ -1,0 +1,11 @@
+- name: Download Pulumi installer
+  get_url:
+    url:  https://get.pulumi.com
+    dest: /opt/install-pulumi
+    mode: '0755'
+- name: Install Pulumi
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: /opt/install-pulumi -y
+  args:
+    creates: "/home/{{ user }}/.pulumi/bin/pulumi"

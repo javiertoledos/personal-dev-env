@@ -1,0 +1,10 @@
+- name: Add Microsoft .Net package repository
+  apt:
+    deb: https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+- name: Install .Net SDK
+  apt:
+    name: dotnet-sdk-6.0
+- name: Install .Net runtime
+  apt:
+    update_cache: yes
+    name: dotnet-sdk-6.0

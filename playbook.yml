@@ -8,24 +8,43 @@
       vars:
         docker_users:
         - "{{ user }}"
+      tags:
+        - docker
+        - development
     - role: geerlingguy.php-versions
+      tags:
+        - php
+        - development
     - role: geerlingguy.php
       vars:
         php_enable_webserver: false
         php_default_version_debian: "7.4"
         php_packages_extra: 
           - "php-zip"
+      tags:
+        - php
+        - development
     - role: geerlingguy.php
       vars:
         php_enable_webserver: false
         php_default_version_debian: "8.1"
         php_packages_extra: 
           - "php-zip"
+      tags:
+        - php
+        - development
     - role: geerlingguy.composer
       vars:
         composer_home_path: '/home/{{ user }}/.composer'
         composer_home_owner: "{{ user }}"
         composer_home_group: "{{ user }}"        
+      tags:
+        - php
+        - development
+    - role: dot-net
+      tags:
+        - dot-net
+        - development
     - role: script-tooling
       tags:
         - scripts
@@ -41,18 +60,43 @@
     - role: gantsign.inotify
       inotify_max_user_watches: 524288
     - role: poetry
+      tags:
+        - python
+        - development
     - role: psql-client
     - role: githubixx.kubectl
+      tags:
+        - kubectl
+        - infrastructure
     - role: helm3
+      tags:
+        - helm3
+        - infrastructure
     - role: deekayen.awscli2
+      tags:
+        - awscli
+        - infrastructure
+    - role: pulumi
+      tags:
+        - pulumi
+        - infrastructure
+    - role: terraform
+      tags:
+        - terraform
+        - infrastructure
   tasks:
     - name: Install Digital Ocean control
       snap:
         name: doctl
+      tags:
+        - kops
+        - infrastructure
     - name: Install Kops
       snap:
         name: kops
-
+      tags:
+        - kops
+        - infrastructure
     - name: Enable Oh My Zsh! plugins
       lineinfile:
         path: "/home/{{ user }}/.zshrc"
